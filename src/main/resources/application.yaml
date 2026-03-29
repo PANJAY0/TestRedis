@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: TestRedis
+  datasource:
+    url: jdbc:postgresql://localhost:5432/TestRedis
+    username: postgres
+    password: abc123
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      # update: 自動根據 Entity 類別更新資料庫結構 (類似 EF Migration)
+      ddl-auto: update
+    # 在控制台顯示執行中的 SQL (開發除錯必備)
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+  data:
+    redis:
+      # 連向你映射出來的其中一個門戶
+      host: 127.0.0.1
+      password: 111111
+      port: 6379
+      # 如果你有在 redis.conf 設定密碼，請加上 requirepass 參數
+      # password: 你的密碼
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+# Swagger / OpenAPI 設定 (新增這部分)
+springdoc:
+  swagger-ui:
+    # 這樣你只要打 http://localhost:8080/swagger-ui.html 就會自動跳轉
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+# 設定伺服器連接埠 (預設是 8080)
+server:
+  port: 8080

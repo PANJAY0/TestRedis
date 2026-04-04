@@ -15,7 +15,7 @@ public class HyperLogLogController
     @Resource
     private RedisTemplate redisTemplate;
 
-    @RequestMapping(value = "/uv",method = RequestMethod.GET)
+    @RequestMapping(value = "/123uv",method = RequestMethod.GET)
     public long uv()
     {
         //pfcount

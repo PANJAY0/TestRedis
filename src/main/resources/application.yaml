@@ -2,7 +2,7 @@ spring:
   application:
     name: TestRedis
   datasource:
-    url: jdbc:postgresql://localhost:5432/TestRedis
+    url: jdbc:postgresql://localhost:5432/TestRedisDatabase
     username: postgres
     password: abc123
     driver-class-name: org.postgresql.Driver

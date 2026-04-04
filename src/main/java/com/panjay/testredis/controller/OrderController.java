@@ -11,16 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-
-
-/**
-
- * @auther zzyy
-
- * @create 2022-07-14 15:08
-
- */
-
 @RestController
 
 @RequestMapping("/api/order")

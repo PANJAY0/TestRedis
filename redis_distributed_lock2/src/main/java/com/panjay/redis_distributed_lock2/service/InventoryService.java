@@ -18,7 +18,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Service
 public class InventoryService
 {
-    public static final String CACHE_KEY_REDLOCK = "ATGUIGU_REDLOCK";
+    public static final String CACHE_KEY_REDLOCK = "REDLOCK";
     private static final Logger log = LoggerFactory.getLogger(InventoryService.class);
 
     @Autowired
@@ -34,8 +34,6 @@ public class InventoryService
     @Value("${server.port}")
     private String port;
 
-    private Lock lock = new ReentrantLock();
-
     public String sale()
     {
         String uuid =  UUID.randomUUID().toString();
@@ -49,10 +47,19 @@ public class InventoryService
         // 對三台redis發送枷鎖請求
         RedissonMultiLock redLock = new RedissonMultiLock(lock1, lock2, lock3);
         redLock.lock();
+
         try
         {
             System.out.println(uuidValue+"\t"+"---come in biz multiLock");
-            try { TimeUnit.SECONDS.sleep(1); } catch (InterruptedException e) { e.printStackTrace(); }
+            String key = "inventory001";
+            String result = stringRedisTemplate.opsForValue().get(key);
+            int num = result == null ? 0 : Integer.parseInt(result);
+            if (num > 0) {
+                stringRedisTemplate.opsForValue().set(key, String.valueOf(--num));
+                System.out.println("port:" + port +", 成功賣出1項, 剩餘:" + num);
+            }
+
+//            try { TimeUnit.SECONDS.sleep(5); } catch (InterruptedException e) { e.printStackTrace(); }
             System.out.println(uuidValue+"\t"+"---task is over multiLock");
         } catch (Exception e) {
             e.printStackTrace();
